@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { createProject } from "../../actions/ProjectActions";
 
 class AddProject extends Component {
   constructor() {
@@ -16,7 +19,9 @@ class AddProject extends Component {
   }
 
   onChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
   }
 
   onSubmit(e) {
@@ -28,7 +33,7 @@ class AddProject extends Component {
       start_date: this.state.start_date,
       end_date: this.state.end_date,
     };
-    console.log(newProject);
+    this.props.createProject(newProject, this.props.history);
   }
 
   render() {
@@ -44,12 +49,11 @@ class AddProject extends Component {
           //bind on constructor
           //check state change in the react extension
         }
-
         <div className="project">
           <div className="container">
             <div className="row">
               <div className="col-md-8 m-auto">
-                <h5 className="display-4 text-center">Create Project form</h5>
+                <h5 className="display-4 text-center"> Create Project form </h5>{" "}
                 <hr />
                 <form onSubmit={this.onSubmit}>
                   <div className="form-group">
@@ -81,7 +85,7 @@ class AddProject extends Component {
                       onChange={this.onChange}
                     />
                   </div>
-                  <h6>Start Date</h6>
+                  <h6> Start Date </h6>
                   <div className="form-group">
                     <input
                       type="date"
@@ -91,7 +95,7 @@ class AddProject extends Component {
                       onChange={this.onChange}
                     />
                   </div>
-                  <h6>Estimated End Date</h6>
+                  <h6> Estimated End Date </h6>
                   <div className="form-group">
                     <input
                       type="date"
@@ -101,7 +105,6 @@ class AddProject extends Component {
                       onChange={this.onChange}
                     />
                   </div>
-
                   <input
                     type="submit"
                     className="btn btn-primary btn-block mt-4"
@@ -116,4 +119,8 @@ class AddProject extends Component {
   }
 }
 
-export default AddProject;
+AddProject.propTypes = {
+  createProject: PropTypes.func.isRequired,
+};
+
+export default connect(null, { createProject })(AddProject);
